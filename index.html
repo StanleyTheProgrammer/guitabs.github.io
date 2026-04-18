@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Tab Editor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Guitar Tab Maker</h1>
+  <p>by stanley</p>
+  <div class="controls">
+    <label>Title: <input type="text" id="titleInput" placeholder="Song Title"></label>
+    <button id="addBarBtn">➕ Add Bar</button>
+    <button id="removeBarBtn">➖ Remove Last Bar</button>
+    <button id="exportBtn">📤 Export .tab</button>
+    <label class="import-label">
+      📂 Import .tab
+      <input type="file" id="importFile" accept=".tab,application/json">
+    </label>
+  </div>
+
+  <div id="tabContainer" class="tab-container">
+    <!-- Bars will be generated here by JavaScript -->
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+body {
+  font-family: 'Courier New', monospace;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+button, .import-label {
+  padding: 8px 12px;
+  background: #4a6fa5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.import-label {
+  background: #6b8cae;
+}
+
+.import-label input {
+  display: none;
+}
+
+.tab-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.bar {
+  border-left: 2px solid #333;
+  padding-left: 10px;
+  min-width: 150px;
+}
+
+.bar:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.string-row {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 3px;
+  align-items: center;
+}
+
+.string-label {
+  width: 20px;
+  font-weight: bold;
+}
+
+.note-input {
+  width: 30px;
+  text-align: center;
+  font-family: monospace;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 4px 0;
+}

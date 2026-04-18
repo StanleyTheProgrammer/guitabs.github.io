@@ -1,7 +1,7 @@
 // Constants
 const STRING_COUNT = 6;
-const DEFAULT_TUNING = ['E', 'A', 'D', 'G', 'B', 'E']; // Display only
-const NOTES_PER_BAR = 8; // We'll have 8 columns per bar (4/4 with eighth notes)
+const DEFAULT_TUNING = ['E', 'A', 'D', 'G', 'B', 'E']; // Display only (low to high)
+const NOTES_PER_BAR = 8; // 8 columns per bar (eighth notes in 4/4)
 
 // State
 let bars = [];
@@ -38,7 +38,7 @@ function render() {
     barDiv.className = 'bar';
     barDiv.dataset.barIndex = barIndex;
     
-    // Create rows for each string
+    // Create rows for each string (low to high)
     for (let stringIdx = 0; stringIdx < STRING_COUNT; stringIdx++) {
       const rowDiv = document.createElement('div');
       rowDiv.className = 'string-row';
@@ -94,17 +94,16 @@ function removeBar() {
   }
 }
 
-// Export to .tab file (JSON)
+// Export to .tab file (JSON content, but named with .tab extension)
 function exportTab() {
   const title = titleInput.value || 'Untitled';
-  const tuning = DEFAULT_TUNING;
   
   const tabData = {
     title: title,
-    tuning: tuning,
+    tuning: DEFAULT_TUNING,
     strings: STRING_COUNT,
     bars: bars.map(bar => {
-      // Convert to our format: array of columns (each column is array of fret numbers)
+      // Convert to columns format: each column is an array of fret numbers (low to high)
       const columns = [];
       for (let noteIdx = 0; noteIdx < NOTES_PER_BAR; noteIdx++) {
         const column = [];
@@ -119,19 +118,21 @@ function exportTab() {
   };
   
   const jsonStr = JSON.stringify(tabData, null, 2);
-  const blob = new Blob([jsonStr], { type: 'application/json' });
+  
+  // Use 'application/octet-stream' to prevent browser from adding .json extension
+  const blob = new Blob([jsonStr], { type: 'application/octet-stream' });
   const url = URL.createObjectURL(blob);
   
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${title.replace(/\s+/g, '_')}.tab`;
+  a.download = `${title.replace(/\s+/g, '_')}.tab`;  // ✅ Just .tab, no extra .json
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 
-// Import from .tab file
+// Import from .tab file (expects JSON content)
 function importTab(file) {
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -152,7 +153,7 @@ function importTab(file) {
         const columns = bar.strings;
         if (!columns) continue;
         
-        // Create empty bar first
+        // Create empty bar
         const barNotes = Array(STRING_COUNT).fill().map(() => Array(NOTES_PER_BAR).fill(''));
         
         // Fill in notes
@@ -189,8 +190,8 @@ importFile.addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (file) {
     importTab(file);
-    importFile.value = ''; // Allow re-importing same file
   }
+  importFile.value = ''; // Allow re-importing same file
 });
 
 // Start the app
